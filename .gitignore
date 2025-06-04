@@ -1,0 +1,10 @@
+.idea
+.venv
+.env
+*.pyc
+*.pyi
+users/__pycache__
+payments/__pycache__
+eleven_tutors/__pycache__
+courses/__pycache__
+db.sqlite3
