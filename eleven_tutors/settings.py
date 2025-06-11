@@ -180,5 +180,5 @@ SIMPLE_JWT = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "https://api.11-tutors.com"
+    "https://11-tutors.com"
 ]
