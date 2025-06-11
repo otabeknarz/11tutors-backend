@@ -20,4 +20,4 @@ class PaymentViewSet(viewsets.ModelViewSet):
         user = self.request.query_params.get('user', None)
         if user is not None:
             queryset = queryset.filter(user=user)
-        return queryset.order_by("-created_at")  # Order by creation date descending
+        return queryset.order_by("-created_at")
