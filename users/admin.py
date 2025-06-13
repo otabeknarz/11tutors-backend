@@ -4,8 +4,8 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ("id", "first_name", "last_name", "username", "email", "created_at")
-    search_fields = ("id", "username", "first_name", "last_name", "email")
+    list_display = ("id", "first_name", "last_name", "email", "created_at")
+    search_fields = ("id", "first_name", "last_name", "email")
     list_filter = ("created_at",)
     ordering = ("created_at",)
     readonly_fields = ("id", "created_at")
@@ -18,7 +18,6 @@ class UserAdmin(admin.ModelAdmin):
                     "first_name",
                     "last_name",
                     "email",
-                    "username",
                     "created_at",
                 )
             },
@@ -28,7 +27,7 @@ class UserAdmin(admin.ModelAdmin):
         (
             None,
             {
-                "fields": ("id", "first_name", "last_name", "username"),
+                "fields": ("id", "first_name", "last_name"),
             },
         ),
     )
