@@ -27,7 +27,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.username
+        return f"{self.get_full_name()} - {self.email}"
 
     def send_verification_email(self):
         """
