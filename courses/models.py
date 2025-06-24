@@ -27,7 +27,7 @@ class Course(BaseModel):
     slug = models.SlugField(max_length=255, unique=True, null=True, blank=True)
     thumbnail = models.ImageField(upload_to="images/course_thumbnails/", null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    trainers = models.ManyToManyField(User, related_name="courses")
+    tutors = models.ManyToManyField(User, related_name="courses")
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True
     )
