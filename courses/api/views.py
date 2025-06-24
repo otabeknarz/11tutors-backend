@@ -10,13 +10,14 @@ from .serializers import CourseSerializer, LessonSerializer, CategorySerializer,
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     http_method_names = ["get"]
 
 
 class CoursePartViewSet(viewsets.ModelViewSet):
-    authentication_classes = [permissions.AllowAny]
+    permission_classes = [permissions.AllowAny]
     queryset = CoursePart.objects.all()
     serializer_class = CoursePartSerializer
     http_method_names = ["get"]
@@ -80,7 +81,7 @@ class EnrollmentViewSet(viewsets.ModelViewSet):
 
 
 class CourseViewSet(viewsets.ModelViewSet):
-    permissions = [permissions.AllowAny]
+    permission_classes = [permissions.AllowAny]
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     lookup_field = "slug"
