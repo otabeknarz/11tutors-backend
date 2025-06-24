@@ -40,6 +40,13 @@ class LessonViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, slug=None, *args, **kwargs):
         lesson = Lesson.objects.filter(slug=slug).first()
+
+        self.permission_classes = (
+            [permissions.AllowAny
+             if lesson.is_free_preview
+             else permissions.IsAuthenticated]
+        )
+
         if not lesson:
             return Response(status=404)
 
