@@ -29,6 +29,12 @@ class LessonViewSet(viewsets.ModelViewSet):
     http_method_names = ["get"]
     lookup_field = "slug"
 
+    def get_permissions(self):
+        if self.action == "retrieve":
+            return [permissions.AllowAny()]
+        else:
+            return [permissions.IsAuthenticated()]
+
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.order_by("part__order", "order")
@@ -40,12 +46,6 @@ class LessonViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, slug=None, *args, **kwargs):
         lesson = Lesson.objects.filter(slug=slug).first()
-
-        self.permission_classes = (
-            [permissions.AllowAny
-             if lesson.is_free_preview
-             else permissions.IsAuthenticated]
-        )
 
         if not lesson:
             return Response(status=404)
