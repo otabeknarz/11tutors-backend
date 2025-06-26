@@ -33,6 +33,7 @@ class LessonDetailSerializer(serializers.ModelSerializer):
         model = Lesson
         fields = ("id", "title", "slug", "description", "is_free_preview", "order", "duration", "created_at")
 
+
 class CoursePartDetailSerializer(serializers.ModelSerializer):
     lessons = LessonSerializer(many=True, read_only=True)
 
@@ -47,12 +48,6 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ("id", "user", "lesson", "text", "created_at")
 
 
-class EnrollmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Enrollment
-        fields = ("id", "student", "course", "enrolled_at")
-
-
 class CourseSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     parts = CoursePartSerializer(many=True, read_only=True)
@@ -65,6 +60,7 @@ class CourseSerializer(serializers.ModelSerializer):
             "title",
             "slug",
             "description",
+            "price",
             "thumbnail",
             "tutors",
             "category",
@@ -72,6 +68,13 @@ class CourseSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
+
+
+class EnrollmentSerializer(serializers.ModelSerializer):
+    course = CourseSerializer()
+    class Meta:
+        model = Enrollment
+        fields = ("id", "student", "course", "enrolled_at")
 
 
 class CourseDetailSerializer(serializers.ModelSerializer):
@@ -86,6 +89,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
             "title",
             "slug",
             "description",
+            "price",
             "thumbnail",
             "tutors",
             "parts",
