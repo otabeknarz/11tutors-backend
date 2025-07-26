@@ -11,6 +11,7 @@ from users.models import User
 from .serializers import PaymentSerializer, CreatePaymentSerializer
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
 
 
 class PaymentViewSet(viewsets.ModelViewSet):
@@ -86,7 +87,6 @@ class PaymentViewSet(viewsets.ModelViewSet):
 def stripe_webhook(request):
     payload = request.body
     sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
-    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
 
     try:
         event = stripe.Webhook.construct_event(
