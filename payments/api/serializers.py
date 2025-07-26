@@ -12,3 +12,6 @@ class PaymentSerializer(serializers.ModelSerializer):
             "status",
             "created_at",
         )
+
+class CreatePaymentSerializer(serializers.Serializer):
+    course_id = serializers.CharField(required=True)

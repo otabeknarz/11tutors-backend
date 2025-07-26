@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from courses.models import Course, Lesson, Category, CoursePart, Comment, Enrollment
+from users.api.serializers import UserSerializer
 from users.models import User
 
 
@@ -52,6 +53,13 @@ class CourseSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     parts = CoursePartSerializer(many=True, read_only=True)
     tutors = TutorSerializer(many=True, read_only=True)
+    is_enrolled = serializers.SerializerMethodField(read_only=True)
+
+    def get_is_enrolled(self, course):
+        user = self.context.get("request").user
+        if not user or user.is_anonymous:
+            return False
+        return Enrollment.objects.filter(course=course, student=user).exists()
 
     class Meta:
         model = Course
@@ -63,6 +71,7 @@ class CourseSerializer(serializers.ModelSerializer):
             "price",
             "thumbnail",
             "tutors",
+            "is_enrolled",
             "category",
             "parts",
             "created_at",
@@ -72,6 +81,8 @@ class CourseSerializer(serializers.ModelSerializer):
 
 class EnrollmentSerializer(serializers.ModelSerializer):
     course = CourseSerializer()
+    student = UserSerializer()
+
     class Meta:
         model = Enrollment
         fields = ("id", "student", "course", "enrolled_at")

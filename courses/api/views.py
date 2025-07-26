@@ -83,7 +83,7 @@ class EnrollmentViewSet(viewsets.ModelViewSet):
     http_method_names = ["get"]
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = Enrollment.objects.filter(student=self.request.user)
         return queryset.order_by("-enrolled_at")
 
 
