@@ -92,6 +92,13 @@ class CourseDetailSerializer(serializers.ModelSerializer):
     categories = CategorySerializer(many=True, read_only=True)
     tutors = TutorSerializer(many=True, read_only=True)
     parts = CoursePartDetailSerializer(many=True, read_only=True)
+    is_enrolled = serializers.SerializerMethodField(read_only=True)
+
+    def get_is_enrolled(self, course):
+        user = self.context.get("request").user
+        if not user or user.is_anonymous:
+            return False
+        return Enrollment.objects.filter(course=course, student=user).exists()
 
     class Meta:
         model = Course
@@ -103,6 +110,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
             "price",
             "thumbnail",
             "tutors",
+            "is_enrolled",
             "parts",
             "categories",
             "categories",

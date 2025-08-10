@@ -1,12 +1,15 @@
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from django.conf import settings
+import logging
 import json
 import requests
 
 from courses.models import Category, Course, CoursePart, Lesson, Comment, Enrollment
 from .serializers import CourseSerializer, LessonSerializer, CategorySerializer, CommentSerializer, \
     EnrollmentSerializer, CoursePartSerializer, CourseDetailSerializer, LessonDetailSerializer
+
+logger = logging.getLogger(__name__)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -46,8 +49,14 @@ class LessonViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, slug=None, *args, **kwargs):
         lesson = Lesson.objects.filter(slug=slug).first()
+        enrollment = None
 
-        if not lesson:
+        try: enrollment = Enrollment.objects.filter(course=lesson.part.course, student=request.user).first()
+        except Exception as e: logger.error(e)
+
+        not_allowed = not enrollment and not lesson.is_free_preview if lesson else True
+
+        if not_allowed:
             return Response(status=404)
 
         serializer = self.get_serializer(lesson)
