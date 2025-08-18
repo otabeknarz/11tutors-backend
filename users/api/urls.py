@@ -9,6 +9,7 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'users', views.UserViewSet, basename='user')
+router.register(r'onboarding-answers', views.OnboardingAnswerViewSet, basename='group')
 
 auth_urls = [
     path('token/', CustomTokenObtainPairView.as_view()),
