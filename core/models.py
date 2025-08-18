@@ -17,3 +17,7 @@ class University(BaseModel):
 
     def __str__(self):
         return self.name if self.name else f"University ({self.id})"
+
+    class Meta:
+        verbose_name = "University"
+        verbose_name_plural = "Universities"

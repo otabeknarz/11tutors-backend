@@ -15,3 +15,7 @@ class PaymentSerializer(serializers.ModelSerializer):
 
 class CreatePaymentSerializer(serializers.Serializer):
     course_id = serializers.CharField(required=True)
+
+    class Meta:
+        model = Payment
+        fields = ("course_id",)

@@ -9,6 +9,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/auth/", include("users.api.urls")),
     path("api/courses/", include("courses.api.urls")),
+    path("api/core/", include("core.api.urls")),
     path("api/payments/stripe/webhook/", payments_views.stripe_webhook),
     path("webhook/", payments_views.stripe_webhook),
     path("api/payments/", include("payments.api.urls")),
