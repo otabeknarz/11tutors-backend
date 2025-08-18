@@ -88,3 +88,6 @@ class User(AbstractUser):
 class OnboardingAnswer(BaseModel):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='onboarding_answers')
     university = models.ForeignKey(University, on_delete=models.SET_NULL, null=True, related_name='onboarding_answers')
+    degree = models.CharField(max_length=100, null=True, blank=True)
+    graduation_year = models.IntegerField(null=True, blank=True)
+    interests = models.TextField(null=True, blank=True)

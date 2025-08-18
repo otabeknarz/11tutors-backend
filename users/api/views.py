@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-from .serializers import UserSerializer
-from users.models import User
+from .serializers import UserSerializer, OnboardingAnswerSerializer
+from users.models import User, OnboardingAnswer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -37,3 +37,11 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
 
         return Response({"detail": "Method not allowed."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+class OnboardingAnswerViewSet(viewsets.ModelViewSet):
+    queryset = OnboardingAnswer.objects.all()
+    serializer_class = OnboardingAnswerSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from users.models import User
+from users.models import User, OnboardingAnswer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -25,3 +25,10 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data.get('password'))
         user.save()
         return user
+
+
+class OnboardingAnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OnboardingAnswer
+        fields = "__all__"
+        read_only_fields = ('id', 'user', 'created_at', 'updated_at')
