@@ -21,6 +21,11 @@ class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
 
+    def get_serializer_class(self):
+        if self.action == "create":
+            return CreatePaymentSerializer
+        return PaymentSerializer
+
     def get_queryset(self):
         """
         Optionally restricts the returned payments to a given user,
@@ -33,7 +38,6 @@ class PaymentViewSet(viewsets.ModelViewSet):
         return queryset.order_by("-created_at")
 
     def create(self, request, *args, **kwargs):
-        self.serializer_class = CreatePaymentSerializer
         serializer = CreatePaymentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
