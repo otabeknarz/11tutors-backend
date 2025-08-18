@@ -43,5 +43,8 @@ class OnboardingAnswerViewSet(viewsets.ModelViewSet):
     queryset = OnboardingAnswer.objects.all()
     serializer_class = OnboardingAnswerSerializer
 
+    def get_queryset(self):
+        return OnboardingAnswer.objects.filter(user=self.request.user)
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
