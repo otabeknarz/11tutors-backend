@@ -138,11 +138,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.User"
 
-EMAIL_VERIFICATION_SALT = os.getenv("EMAIL_VERIFICATION_SALT")
-
-if not EMAIL_VERIFICATION_SALT:
-    raise ValueError("EMAIL_VERIFICATION_SALT environment variable is not set.")
-
 # Email settings
 EMAIL_BACKEND = (
     'django.core.mail.backends.smtp.EmailBackend'
@@ -174,12 +169,6 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "https://11-tutors.com"
-]
-
 
 # VDOCIPHER settings
 VIDEO_SERVICE_SECRET_KEY = os.getenv("VIDEO_SERVICE_SECRET_KEY")
