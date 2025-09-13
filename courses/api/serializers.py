@@ -53,13 +53,6 @@ class CourseSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     parts = CoursePartSerializer(many=True, read_only=True)
     tutors = TutorSerializer(many=True, read_only=True)
-    is_enrolled = serializers.SerializerMethodField(read_only=True)
-
-    def get_is_enrolled(self, course):
-        user = self.context.get("request").user
-        if not user or user.is_anonymous:
-            return False
-        return Enrollment.objects.filter(course=course, student=user).exists()
 
     class Meta:
         model = Course
@@ -71,12 +64,24 @@ class CourseSerializer(serializers.ModelSerializer):
             "price",
             "thumbnail",
             "tutors",
-            "is_enrolled",
             "category",
             "parts",
             "created_at",
             "updated_at",
         )
+
+class CourseStatsSerializer(CourseSerializer):
+    number_of_lessons = serializers.SerializerMethodField(read_only=True)
+    number_of_comments = serializers.SerializerMethodField(read_only=True)
+    number_of_tutors = serializers.SerializerMethodField(read_only=True)
+    number_of_enrolled = serializers.SerializerMethodField(read_only=True)
+    number_of_payments = serializers.SerializerMethodField(read_only=True)
+    number_of_failed_payments = serializers.SerializerMethodField(read_only=True)
+    number_of_completed_payments = serializers.SerializerMethodField(read_only=True)
+    number_of_pending_payments = serializers.SerializerMethodField(read_only=True)
+
+    class Meta(CourseSerializer.Meta):
+        pass
 
 
 class EnrollmentSerializer(serializers.ModelSerializer):
