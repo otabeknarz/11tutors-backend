@@ -32,6 +32,9 @@ DEBUG = os.getenv("DJANGO_DEBUG", "0").lower() in ("true", "1", "yes")
 
 ALLOWED_HOSTS = ["*"]
 
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
+
 
 # Application definition
 
