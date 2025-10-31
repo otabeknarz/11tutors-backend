@@ -23,6 +23,15 @@ class CoursePartSerializer(serializers.ModelSerializer):
         fields = ("id", "title", "order")
 
 
+class CoursePartCreateSerializer(serializers.ModelSerializer):
+    course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
+
+    class Meta:
+        model = CoursePart
+        fields = ("id", "title", "order", "course", "created_at", "updated_at")
+        read_only_fields = ("id", "created_at", "updated_at")
+
+
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson

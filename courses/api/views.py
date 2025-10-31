@@ -7,7 +7,7 @@ import requests
 
 from courses.models import Category, Course, CoursePart, Lesson, Comment, Enrollment
 from .serializers import CourseSerializer, LessonSerializer, CategorySerializer, CommentSerializer, \
-    EnrollmentSerializer, CoursePartSerializer, CourseDetailSerializer, LessonDetailSerializer
+    EnrollmentSerializer, CoursePartSerializer, CourseDetailSerializer, LessonDetailSerializer, CoursePartCreateSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -16,20 +16,20 @@ class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    http_method_names = ["get"]
 
 
 class CoursePartViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CoursePart.objects.all()
     serializer_class = CoursePartSerializer
-    http_method_names = ["get"]
+
+    def get_serializer_class(self):
+        return CoursePartCreateSerializer if self.action == "create" else CourseSerializer
 
 
 class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    http_method_names = ["get"]
     lookup_field = "slug"
 
     def get_permissions(self):
@@ -79,7 +79,6 @@ class LessonViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    http_method_names = ["get", "post", "patch"]
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -101,7 +100,6 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     lookup_field = "slug"
-    http_method_names = ["get"]
 
     def get_queryset(self):
         queryset = super().get_queryset()
