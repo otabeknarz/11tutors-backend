@@ -22,9 +22,10 @@ class CoursePartViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     queryset = CoursePart.objects.all()
     serializer_class = CoursePartSerializer
+    lookup_field = "slug"
 
     def get_serializer_class(self):
-        return CoursePartCreateSerializer if self.action == "create" else CourseSerializer
+        return CoursePartCreateSerializer if self.action == "create" else CoursePartSerializer
 
 
 class LessonViewSet(viewsets.ModelViewSet):
