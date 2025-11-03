@@ -38,6 +38,13 @@ class LessonSerializer(serializers.ModelSerializer):
         fields = ("id", "title", "slug", "order", "duration", "created_at", "is_free_preview")
 
 
+class LessonCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lesson
+        fields = ("id", "part", "title", "slug", "description", "video_service_id", "is_free_preview", "order", "duration", "created_at", "updated_at")
+        read_only_fields = ("id", "slug", "created_at", "updated_at")
+
+
 class LessonDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson

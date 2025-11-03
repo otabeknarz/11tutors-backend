@@ -5,6 +5,11 @@ from django.contrib.staticfiles.urls import static
 
 from payments.api import views as payments_views
 
+# Customize Django Admin Panel
+admin.site.site_header = "11Tutors Admin Panel"
+admin.site.site_title = "11Tutors Admin"
+admin.site.index_title = "Welcome to 11Tutors Administration"
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/auth/", include("users.api.urls")),

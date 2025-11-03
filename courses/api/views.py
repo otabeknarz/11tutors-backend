@@ -7,7 +7,7 @@ import requests
 
 from courses.models import Category, Course, CoursePart, Lesson, Comment, Enrollment
 from .serializers import CourseSerializer, LessonSerializer, CategorySerializer, CommentSerializer, \
-    EnrollmentSerializer, CoursePartSerializer, CourseDetailSerializer, LessonDetailSerializer, CoursePartCreateSerializer
+    EnrollmentSerializer, CoursePartSerializer, CourseDetailSerializer, LessonDetailSerializer, CoursePartCreateSerializer, LessonCreateSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +44,9 @@ class LessonViewSet(viewsets.ModelViewSet):
         return queryset.order_by("part__order", "order")
 
     def get_serializer_class(self):
-        if self.action == "list":
+        if self.action == "create":
+            return LessonCreateSerializer
+        elif self.action == "list":
             return LessonSerializer
         return LessonDetailSerializer
 
